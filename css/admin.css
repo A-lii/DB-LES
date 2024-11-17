@@ -1,0 +1,127 @@
+@import url('components.css');
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.dashboard {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.dashboard .title {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Box Container */
+.dashboard .box-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Individual Boxes */
+.dashboard .box {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.dashboard .box:hover {
+    transform: translateY(-10px);
+}
+
+.dashboard .box h3 {
+    font-size: 2em;
+    color: #316eaf;;
+    margin: 10px 0;
+}
+
+.dashboard .box p {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.dashboard .box .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #316eaf;;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.dashboard .box .btn:hover {
+    background-color: #0056b3;
+}
+
+.table-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh; /* Center the table vertically */
+}
+
+.icons {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem; /* Add spacing between icons */
+}
+
+#user-btn {
+    font-size: 1.8rem; /* Size of the user icon */
+    cursor: pointer; /* Pointer cursor on hover */
+    color: var(--black); /* Icon color */
+}
+
+.logout-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+/* .logout-btn {
+    display: inline-block;
+    padding: 5px 15px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+} */
+
+.logout-btn:hover {
+    background-color: #0056b3;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Ensures spacing between logo, navbar, and icons */
+    padding: 10px 20px; /* Add padding to the header */
+}
+
+.navbar {
+    display: flex;
+    gap: 1rem; /* Add spacing between navbar links */
+}
+
+#menu-btn, #user-btn {
+    font-size: 1.8rem;
+    cursor: pointer;
+}

@@ -1,0 +1,193 @@
+-- Table to store user information for both teachers and students
+CREATE TABLE Users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50),
+    middle_name VARCHAR(50),
+    last_name VARCHAR(50),
+    email VARCHAR(100) UNIQUE,
+    password VARCHAR(255),
+    role ENUM('student', 'teacher'),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Table to store teacher-specific information
+CREATE TABLE Teachers (
+    teacher_id INT PRIMARY KEY,
+    department VARCHAR(50),
+    subject VARCHAR(100),
+    designation VARCHAR(50),
+    salary DECIMAL(10, 2),
+    FOREIGN KEY (teacher_id) REFERENCES Users(user_id)
+);
+
+-- Table to store student-specific information
+CREATE TABLE Students (
+    student_id INT PRIMARY KEY,
+    program VARCHAR(50),
+    department VARCHAR(50),
+    major VARCHAR(50),
+    cgpa DECIMAL(3, 2),
+    total_credits INT,
+    FOREIGN KEY (student_id) REFERENCES Users(user_id)
+);
+
+-- Table to store courses
+CREATE TABLE Courses (
+    course_id INT AUTO_INCREMENT PRIMARY KEY,
+    course_name VARCHAR(100),
+    section VARCHAR(10),
+    credits INT
+);
+
+-- Table to track student enrollment in courses
+CREATE TABLE Enrollment (
+    enrollment_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT,
+    course_id INT,
+    enrollment_date DATE,
+    semester VARCHAR(10),
+    status ENUM('enrolled', 'completed', 'dropped'),
+    FOREIGN KEY (student_id) REFERENCES Students(student_id),
+    FOREIGN KEY (course_id) REFERENCES Courses(course_id)
+);
+
+-- Table to store problems created by teachers for the problem bank
+CREATE TABLE Problems (
+    problem_id INT AUTO_INCREMENT PRIMARY KEY,
+    course_id INT,
+    problem_type ENUM('text', 'file_upload'),
+    problem_statement TEXT,
+    submission_deadline DATE,
+    time_limit INT,
+    FOREIGN KEY (course_id) REFERENCES Courses(course_id)
+);
+
+-- Table to track submissions by students
+CREATE TABLE Submissions (
+    submission_id INT AUTO_INCREMENT PRIMARY KEY,
+    problem_id INT,
+    student_id INT,
+    submission_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    attempt_count INT,
+    score DECIMAL(4, 2),
+    FOREIGN KEY (problem_id) REFERENCES Problems(problem_id),
+    FOREIGN KEY (student_id) REFERENCES Students(student_id)
+);
+
+-- Table to store feedback provided by teachers on submissions
+CREATE TABLE Feedback (
+    feedback_id INT AUTO_INCREMENT PRIMARY KEY,
+    submission_id INT,
+    teacher_id INT,
+    feedback_comment TEXT,
+    grade DECIMAL(4, 2),
+    FOREIGN KEY (submission_id) REFERENCES Submissions(submission_id),
+    FOREIGN KEY (teacher_id) REFERENCES Teachers(teacher_id)
+);
+
+
+teachers_dashboard: 
+
+<?php
+@include 'config.php';
+session_start();
+
+// Ensure the teacher is logged in
+if (!isset($_SESSION['teacher_user_id'])) {
+    header('Location: login.php');
+    exit();
+}
+
+// Fetch teacher’s information
+$teacher_id = $_SESSION['teacher_user_id'];
+try {
+    $query = "SELECT * FROM teachers WHERE user_id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->execute([$teacher_id]);
+    $teacher = $stmt->fetch(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Error fetching teacher details: " . $e->getMessage());
+}
+?>
+
+<?php include 'users_header.php'; ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/teacher.css">
+
+</head>
+<body>
+
+<?php include 'teacher_header.php'; ?> <!-- Common header for teacher navigation -->
+
+<section class="dashboard">
+    <h1 class="title">Welcome, <?php echo htmlspecialchars($teacher['first_name']); ?></h1>
+
+    <!-- Quick Actions -->
+    <div class="quick-links">
+        <a href="upload_problem_bank.php" class="btn">Upload Problem Bank</a>
+        <a href="view_submissions.php" class="btn">View Submissions</a>
+        <a href="teacher_feedback.php" class="btn">Provide Feedback</a>
+    </div>
+
+    <!-- Problem Bank Management Section -->
+    <section class="problem-bank-management">
+        <h2>Manage Problem Banks</h2>
+        <a href="upload_problem_bank.php" class="btn">Upload New Problem Bank</a>
+        <div class="problem-bank-list">
+            <!-- Display a list of existing problem banks -->
+            <?php
+            try {
+                $query = "SELECT * FROM problem_banks WHERE teacher_id = ?";
+                $stmt = $conn->prepare($query);
+                $stmt->execute([$teacher_id]);
+                $problem_banks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                
+                if ($problem_banks) {
+                    foreach ($problem_banks as $bank) {
+                        echo "<div class='problem-bank'>
+                                <h3>" . htmlspecialchars($bank['title']) . " (" . htmlspecialchars($bank['type']) . ")</h3>
+                                <a href='edit_problem_bank.php?id=" . $bank['id'] . "' class='btn'>Edit</a>
+                                <a href='delete_problem_bank.php?id=" . $bank['id'] . "' class='btn delete'>Delete</a>
+                              </div>";
+                    }
+                } else {
+                    echo "<p>No problem banks available.</p>";
+                }
+            } catch (PDOException $e) {
+                echo "<p>Error loading problem banks: " . $e->getMessage() . "</p>";
+            }
+            ?>
+        </div>
+    </section>
+
+    <!-- Student Submissions Section -->
+    <section class="student-submissions">
+        <h2>Student Submissions</h2>
+        <a href="view_submissions.php" class="btn">View All Submissions</a>
+    </section>
+
+    <!-- Feedback Section -->
+    <section class="teacher-feedback">
+        <h2>Provide Feedback to Students</h2>
+        <a href="teacher_feedback.php" class="btn">Go to Feedback</a>
+    </section>
+
+    <!-- Feedback to Admin -->
+    <section class="feedback-to-admin">
+        <h2>Feedback to Admin</h2>
+        <form action="submit_feedback.php" method="POST">
+            <textarea name="feedback" placeholder="Enter feedback for the admin here..." required></textarea>
+            <input type="submit" value="Submit Feedback" class="btn">
+        </form>
+    </section>
+</section>
+
+</body>
+</html>

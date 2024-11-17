@@ -1,0 +1,696 @@
+<header class="header">
+
+   <div class="flex">
+
+      <!-- Logo -->
+      <a href="admin_page.php" class="logo">Admin<span>Panel</span></a>
+
+      <!-- Navigation Bar -->
+      <nav class="navbar">
+         <a href="admin_page.php">Home</a>
+         <a href="about.php">About</a>
+         <a href="contacts.php">Contact Us</a>
+      </nav>
+
+      <!-- Icons -->
+      <div class="icons">
+         <div id="menu-btn" class="fas fa-bars"></div>
+         <div id="user-btn" class="fas fa-user"></div>
+      </div>
+
+      <!-- Profile Section -->
+      <div class="profile">
+         <?php
+         /*
+            $select_profile = $conn->prepare("SELECT * FROM `users` WHERE id = ?");
+            $select_profile->execute([$admin_id]);
+            $fetch_profile = $select_profile->fetch(PDO::FETCH_ASSOC);
+         */
+         ?>
+         <img src="uploaded_img/default.png" alt="Default Profile Picture"> <!-- Placeholder image -->
+         <p>Admin Name</p> <!-- Placeholder name -->
+         <a href="admin_update_profile.php" class="btn">Update Profile</a>
+         <a href="logout.php" class="delete-btn">Logout</a>
+         <div class="flex-btn">
+            <a href="login.php" class="option-btn">Login</a>
+            <a href="register.php" class="option-btn">Register</a>
+         </div>
+      </div>
+
+   </div>
+</header> 
+
+
+
+admin.css (3 grids + 1 grid)
+@import url('components.css');
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.dashboard {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.dashboard .title {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Box Container */
+.dashboard .box-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Individual Boxes */
+.dashboard .box {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.dashboard .box:hover {
+    transform: translateY(-10px);
+}
+
+.dashboard .box h3 {
+    font-size: 2em;
+    color: #316eaf;;
+    margin: 10px 0;
+}
+
+.dashboard .box p {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.dashboard .box .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #316eaf;;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.dashboard .box .btn:hover {
+    background-color: #0056b3;
+}
+
+.logout-btn {
+    position: absolute; /* Position the button relative to the page */
+    top: 20px;         /* Distance from the top of the page */
+    right: 20px;       /* Distance from the right side of the page */
+    padding: 10px 20px; /* Padding inside the button */
+    background-color: #007BFF; /* Blue background */
+    color: white;      /* White text color */
+    border: none;      /* Remove default borders */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 1em;    /* Font size */
+    text-decoration: none; /* Remove underline from links */
+    cursor: pointer;   /* Change cursor to pointer on hover */
+    transition: background-color 0.3s; /* Smooth hover effect */
+}
+
+.logout-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+
+
+
+
+admin.css (2+2 grids) but not aligned:
+@import url('components.css');
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.dashboard {
+    max-width: 1200px;
+    margin: 120px auto 0; /* Leaves space for the sticky header */
+    padding: 20px;
+    text-align: center;
+}
+
+.dashboard .title {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Box Container */
+.dashboard .box-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two boxes per row */
+    gap: 20px; /* Space between the boxes */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+/* Individual Boxes */
+.dashboard .box {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 250px; /* Fixed width */
+    height: 250px; /* Fixed height for square shape */
+    text-align: center;
+    transition: transform 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.dashboard .box:hover {
+    transform: translateY(-10px);
+}
+
+.dashboard .box h3 {
+    font-size: 2em;
+    color: #316eaf;;
+    margin: 10px 0;
+}
+
+.dashboard .box p {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.dashboard .box .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #316eaf;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.dashboard .box .btn:hover {
+    background-color: #0056b3;
+}
+
+.logout-btn {
+    position: absolute; /* Position the button relative to the page */
+    top: 20px;         /* Distance from the top of the page */
+    right: 20px;       /* Distance from the right side of the page */
+    padding: 10px 20px; /* Padding inside the button */
+    background-color: #007BFF; /* Blue background */
+    color: white;      /* White text color */
+    border: none;      /* Remove default borders */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 1em;    /* Font size */
+    text-decoration: none; /* Remove underline from links */
+    cursor: pointer;   /* Change cursor to pointer on hover */
+    transition: background-color 0.3s; /* Smooth hover effect */
+}
+
+.logout-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard .box-container {
+        grid-template-columns: 1fr; /* One box per row for smaller screens */
+    }
+
+    .dashboard .box {
+        width: 200px; /* Smaller squares for mobile */
+        height: 200px;
+    }
+}
+
+
+
+
+
+
+
+
+
+admin_login.php
+
+<?php
+@include 'config.php'; // Include your database connection file
+
+// Start the session
+session_start();
+
+// Check if the admin is logged in
+if (!isset($_SESSION['admin_id'])) {
+    // Redirect to the admin login page if not logged in
+    header('Location: admin_login.php'); // Replace 'admin_login.php' with the actual login page file
+    exit();
+}
+
+// Fetch all teachers from the database
+try {
+    $query = "SELECT * FROM teachers";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+    $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Error fetching teachers: " . $e->getMessage());
+}
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Admin Login</title>
+
+   <!-- Font Awesome for Icons -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+</head>
+
+<body>
+    <section class="form-container">
+        <form action="admin_login.php" method="POST"> <!-- Explicit action -->
+            <h3>Admin Login</h3>
+            <?php
+            if (isset($message)) {
+                echo '<div class="error">' . htmlspecialchars($message) . '</div>';
+            }
+            ?>
+            <input type="text" name="username" class="box" placeholder="Enter your username" required>
+            <input type="password" name="password" class="box" placeholder="Enter your password" required>
+            <input type="submit" value="Login" class="btn" name="submit">
+        </form>
+    </section>
+</body>
+</html>
+
+
+   <!-- Custom CSS -->
+   <style>
+
+
+      @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600&display=swap');
+      :root {
+         --green: #27ae60;
+         --black: #333;
+         --white: #fff;
+         --light-bg: #f6f6f6;
+         --border: .2rem solid var(--black);
+         --box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+      }
+      * {
+         font-family: 'Rubik', sans-serif;
+         margin: 0; padding: 0;
+         box-sizing: border-box;
+         outline: none; border: none;
+         text-decoration: none; color: var(--black);
+      }
+      body {
+         background-color: var(--light-bg);
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         height: 100vh;
+         margin: 0;
+      }
+      .form-container {
+         background-color: var(--white);
+         padding: 2rem;
+         width: 40rem;
+         border-radius: .5rem;
+         box-shadow: var(--box-shadow);
+         border: var(--border);
+      }
+      .form-container h3 {
+         font-size: 3rem;
+         color: var(--black);
+         text-align: center;
+         margin-bottom: 1.5rem;
+      }
+      .form-container .box {
+         width: 100%;
+         margin: 1rem 0;
+         padding: 1.2rem;
+         font-size: 1.8rem;
+         border-radius: .5rem;
+         border: var(--border);
+         background-color: var(--light-bg);
+      }
+      .form-container .btn {
+         width: 100%;
+         padding: 1rem;
+         font-size: 2rem;
+         text-transform: capitalize;
+         text-align: center;
+         color: var(--white);
+         background-color: var(--green);
+         border-radius: .5rem;
+         cursor: pointer;
+         margin-top: 1.5rem;
+      }
+      .form-container .btn:hover {
+         background-color: var(--black);
+      }
+   </style>
+
+<!-- </head>
+<body>
+
+   <section class="form-container">
+      <form action="admin_login_action.php" method="POST">
+         <h3>Admin Login</h3>
+         <input type="text" name="username" class="box" placeholder="Enter your username" required>
+         <input type="password" name="password" class="box" placeholder="Enter your password" required>
+         <input type="submit" value="Login" class="btn">
+      </form>
+   </section>
+
+</body>
+</html> -->
+
+
+
+admin_page.php
+<?php
+@include 'config.php'; // Include your database connection file
+
+// Start the session
+session_start();
+
+// Check if the admin is logged in
+if (!isset($_SESSION['admin_id'])) {
+    // Redirect to the admin login page if not logged in
+    header('Location: admin_login.php'); // Replace 'admin_login.php' with the actual login page file
+    exit();
+}
+
+// Fetch all teachers from the database
+try {
+    $query = "SELECT * FROM teachers";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+    $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Error fetching teachers: " . $e->getMessage());
+}
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>  
+    <meta charset="UTF-8">
+    <meta http-equiv="X-VA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+
+    <!--font awesome cdn link-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
+    <!--custom css file link-->
+    <link rel="stylesheet" href="css/admin.css">
+
+</head>
+<body>
+
+<?php include 'admin_header.php'; ?>
+<!-- Logout Button -->
+<a href="logout.php" class="logout-btn">Logout</a>
+
+<section class="dashboard">
+
+    <h1 class="title">DB-LES Dashboard</h1>
+
+    <div class="box-container">
+
+        <div class="box">
+            <h3>0</h3>
+            <p>Registered Teachers</p>
+            <a href="#" class="btn">View Teachers</a>
+        </div>
+
+        <div class="box">
+            <h3>0</h3>
+            <p>Registered Students</p>
+            <a href="#" class="btn">View Students</a>
+        </div>
+
+        <div class="box">
+            <h3>0</h3>
+            <p>Add Exams</p>
+            <a href="#" class="btn">View Exams</a>
+        </div>
+
+        <div class="box">
+            <h3>0</h3>
+            <p>Feedback</p>
+            <a href="#" class="btn">Manage Feedbacks</a>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- Registered Teachers Table -->
+<section id="teachers-section">
+    <h2 class="title">Registered Teachers</h2>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Teacher ID</th>
+                    <th>User ID</th>
+                    <th>First Name</th>
+                    <th>Middle Name</th>
+                    <th>Last Name</th>
+                    <th>Department</th>
+                    <th>Designation</th>
+                    <th>Course Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (!empty($teachers)) : ?>
+                    <?php foreach ($teachers as $teacher) : ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($teacher['teacher_id']); ?></td>
+                            <td><?php echo htmlspecialchars($teacher['user_id']); ?></td>
+                            <td><?php echo htmlspecialchars($teacher['first_name']); ?></td>
+                            <td><?php echo htmlspecialchars($teacher['middle_name']); ?></td>
+                            <td><?php echo htmlspecialchars($teacher['last_name']); ?></td>
+                            <td><?php echo htmlspecialchars($teacher['department']); ?></td>
+                            <td><?php echo htmlspecialchars($teacher['designation']); ?></td>
+                            <td><?php echo htmlspecialchars($teacher['course_name']); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <tr>
+                        <td colspan="8">No teachers found.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+</body>
+</html>
+
+
+
+admin_profile.php with N/A
+<?php
+@include 'config.php';
+session_start();
+
+// Ensure the admin is logged in
+if (!isset($_SESSION['admin_id'])) {
+    header('Location: admin_login.php');
+    exit();
+}
+
+// Fetch the admin's details from the database
+$admin_id = $_SESSION['admin_id'];
+
+try {
+    $query = "SELECT * FROM admin WHERE admin_user_id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->execute([$admin_id]);
+    $admin = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$admin) {
+        die("Admin not found.");
+    }
+} catch (PDOException $e) {
+    die("Error fetching admin details: " . $e->getMessage());
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Profile</title>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<?php include 'admin_header.php'; ?>
+<!-- Logout Button -->
+<a href="logout.php" class="logout-btn">Logout</a>
+
+<section>
+    <h1 class="title">Admin Profile</h1>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Admin ID</th>
+                    <th>Full Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+    <td><?php echo isset($admin['admin_user_id']) ? htmlspecialchars($admin['admin_user_id']) : 'N/A'; ?></td>
+    <td><?php echo isset($admin['full_name']) ? htmlspecialchars($admin['full_name']) : 'N/A'; ?></td>
+    <td><?php echo isset($admin['username']) ? htmlspecialchars($admin['username']) : 'N/A'; ?></td>
+    <td><?php echo isset($admin['email']) ? htmlspecialchars($admin['email']) : 'N/A'; ?></td>
+</tr>
+
+            </tbody>
+        </table>
+    </div>
+</section>
+
+</body>
+</html>
+
+
+
+
+admin_login middle one code-
+<!--middle one-->
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+</head>
+
+<body>
+    <h1>Admin Login</h1>
+    <form method="POST" action="">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit" name="submit">Login</button>
+    </form>
+    <?php if (isset($error_message)): ?>
+        <p style="color: red;"><?php echo $error_message; ?></p>
+    <?php endif; ?>
+</body>
+</html>
+    -->
+
+   <!-- Custom CSS -->
+   <style>
+
+      @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600&display=swap');
+      :root {
+         --green: #27ae60;
+         --black: #333;
+         --white: #fff;
+         --light-bg: #f6f6f6;
+         --border: .2rem solid var(--black);
+         --box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+      }
+      * {
+         font-family: 'Rubik', sans-serif;
+         margin: 0; padding: 0;
+         box-sizing: border-box;
+         outline: none; border: none;
+         text-decoration: none; color: var(--black);
+      }
+      body {
+         background-color: var(--light-bg);
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         height: 100vh;
+         margin: 0;
+      }
+      .form-container {
+         background-color: var(--white);
+         padding: 2rem;
+         width: 40rem;
+         border-radius: .5rem;
+         box-shadow: var(--box-shadow);
+         border: var(--border);
+      }
+      .form-container h3 {
+         font-size: 3rem;
+         color: var(--black);
+         text-align: center;
+         margin-bottom: 1.5rem;
+      }
+      .form-container .box {
+         width: 100%;
+         margin: 1rem 0;
+         padding: 1.2rem;
+         font-size: 1.8rem;
+         border-radius: .5rem;
+         border: var(--border);
+         background-color: var(--light-bg);
+      }
+      .form-container .btn {
+         width: 100%;
+         padding: 1rem;
+         font-size: 2rem;
+         text-transform: capitalize;
+         text-align: center;
+         color: var(--white);
+         background-color: var(--green);
+         border-radius: .5rem;
+         cursor: pointer;
+         margin-top: 1.5rem;
+      }
+      .form-container .btn:hover {
+         background-color: var(--black);
+      }
+   </style> 
